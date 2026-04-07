@@ -139,7 +139,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <div class="logo-header">
         <img src="hosana.png" alt="Hosana Cafe Logo"> 
     </div>
-    <h2>POS System Login</h2>
+    <h2>POS System wehhhhh Login</h2>
     
     <form action="" method="post">
         <label for="username" style="text-align: left; font-weight: bold;">Username:</label>
