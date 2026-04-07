@@ -6,7 +6,7 @@ if (!isset($_SESSION['loggedin']) || $_SESSION['role'] != 'admin') {
     header("location: login.php");
     exit;
 }
-
+                 
 date_default_timezone_set('Asia/Manila');
 
 $monthly_sales_data = [];
@@ -190,7 +190,7 @@ if ($selected_id > 0) {
 
         <div class="content-scroll">
             <div class="metrics-row">
-                <div class="stat-card"><div class="card-title">TOTAL POS SALES</div><div class="card-value">₱ <?= number_format($total_pos, 2); ?></div></div>
+                <div class="stat-card"><div class="card-title">TOTAL POS OO GANI SALES</div><div class="card-value">₱ <?= number_format($total_pos, 2); ?></div></div>
                 <div class="stat-card"><div class="card-title">TOTAL ONLINE SALES</div><div class="card-value">₱ <?= number_format($total_online, 2); ?></div></div>
                 <div class="stat-card"><div class="card-title">GRAND TOTAL REVENUE</div><div class="card-value" style="color:#2E7D32;">₱ <?= number_format($grand_total, 2); ?></div></div>
             </div>
