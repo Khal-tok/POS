@@ -1,0 +1,156 @@
+/* File: barista_OOH.css */
+
+/* ==================================
+   1. GLOBAL & LAYOUT STYLES 
+   ================================== */
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: #F8F4EF; /* Very light tan background */
+    color: #4E342E; /* Dark espresso brown text */
+    margin: 0;
+    padding: 20px;
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    background: white;
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+}
+
+h2 {
+    color: #4E342E; 
+    border-bottom: 2px solid #E0E0E0;
+    padding-bottom: 10px;
+    margin-top: 0;
+    margin-bottom: 25px;
+}
+
+h3 {
+    color: #8B4513; /* Brown Accent */
+    border-bottom: 1px solid #F0F0F0;
+    padding-bottom: 5px;
+    margin-top: 25px;
+    margin-bottom: 15px;
+}
+
+a {
+    color: #8B4513; 
+    text-decoration: none;
+    font-weight: bold;
+    transition: color 0.2s;
+}
+
+a:hover {
+    color: #5D4037;
+    text-decoration: underline;
+}
+
+/* ==================================
+   2. MAIN TABLE STYLES
+   ================================== */
+.order-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 15px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+    border-radius: 8px;
+    overflow: hidden; /* Ensures rounded corners */
+}
+
+.order-table thead th {
+    background-color: #4E342E; /* Dark Brown Header */
+    color: white;
+    padding: 12px 15px;
+    text-align: left;
+    font-weight: 600;
+    text-transform: uppercase;
+    font-size: 0.9em;
+}
+
+.order-table tbody tr {
+    background-color: #FFFFFF;
+    cursor: pointer;
+    transition: background-color 0.1s;
+}
+
+.order-table tbody tr:hover {
+    background-color: #F8F4EF; /* Light tan hover */
+}
+
+.order-table td {
+    padding: 10px 15px;
+    border-bottom: 1px solid #E0E0E0;
+    font-size: 0.95em;
+}
+
+/* Status Badges */
+.status-badge {
+    display: inline-block;
+    padding: 4px 10px;
+    border-radius: 12px;
+    font-weight: bold;
+    font-size: 0.8em;
+    text-transform: uppercase;
+    white-space: nowrap;
+}
+
+/* Status Colors */
+.status-Pending {
+    background-color: #FFF3E0; color: #FF9800;
+}
+.status-Prepared {
+    background-color: #E8F5E9; color: #4CAF50;
+}
+.status-Delivered {
+    background-color: #E3F2FD; color: #2196F3;
+}
+.status-Completed {
+    background-color: #E3F2FD; color: #2196F3;
+}
+.status-Canceled {
+    background-color: #FFEBEE; color: #F44336;
+}
+
+/* ==================================
+   3. COLLAPSIBLE ITEM DETAILS (Nested Row)
+   ================================== */
+.item-details-row {
+    background-color: #FDFDFD;
+}
+
+.details-content {
+    padding: 15px 30px;
+    background-color: #FDFDFD;
+    border-bottom: 3px solid #ccc;
+}
+
+.details-content strong {
+    color: #4E342E;
+}
+
+.nested-table {
+    width: 100%;
+    margin-top: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    overflow: hidden;
+}
+
+.nested-table th {
+    background-color: #F5F5F5;
+    color: #555;
+    padding: 8px 10px;
+    font-size: 0.85em;
+    text-transform: capitalize;
+}
+.nested-table td {
+    padding: 8px 10px;
+    font-size: 0.9em;
+}
+
+.nested-table tr:hover {
+    background-color: #fcfcfc;
+}

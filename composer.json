@@ -1,0 +1,100 @@
+<?php
+session_start();
+include 'db.php';
+
+if (!isset($_SESSION['loggedin']) || $_SESSION['role'] != 'customer') {
+    header("location: customer_login.php");
+    exit;
+}
+
+if (empty($_SESSION['online_cart'])) {
+    header("location: customer_dashboard.php");
+    exit;
+}
+
+$total_cart = 0;
+foreach ($_SESSION['online_cart'] as $item) {
+    // FIX: Check for 'qty' OR 'quantity'
+    $qty = isset($item['qty']) ? $item['qty'] : (isset($item['quantity']) ? $item['quantity'] : 1);
+    $total_cart += $item['price'] * $qty;
+}
+
+$username = $_SESSION['username'];
+$stmt = mysqli_prepare($conn, "SELECT contact_number FROM users WHERE username = ?");
+mysqli_stmt_bind_param($stmt, "s", $username);
+mysqli_stmt_execute($stmt);
+$res = mysqli_stmt_get_result($stmt);
+$user = mysqli_fetch_assoc($res);
+$contact = $user['contact_number'];
+?>
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Checkout</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        body { font-family: 'Segoe UI', sans-serif; background-color: #F8F4EF; color: #4E342E; padding: 20px; }
+        .container { max-width: 600px; margin: 0 auto; background: white; padding: 40px; border-radius: 12px; box-shadow: 0 10px 25px rgba(0,0,0,0.1); border-top: 5px solid #8B4513; }
+        h2 { border-bottom: 2px solid #eee; padding-bottom: 15px; }
+        .form-group { margin-bottom: 15px; }
+        label { display: block; margin-bottom: 5px; font-weight: bold; }
+        input, textarea { width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 5px; box-sizing: border-box; }
+        .summary { background: #f9f9f9; padding: 15px; border-radius: 8px; margin-bottom: 20px; text-align: center; font-size: 1.2em; font-weight: bold; }
+        .btn-back { display: inline-block; margin-top: 20px; color: #8B4513; text-decoration: none; }
+        .payment-options { display: flex; gap: 15px; margin-bottom: 20px; }
+        .payment-card { flex: 1; padding: 15px; border: 2px solid #eee; border-radius: 8px; text-align: center; cursor: pointer; font-weight: bold; }
+        .payment-card.active { border-color: #8B4513; background-color: #EFEBE9; color: #5D4037; }
+        .btn-cod { width: 100%; padding: 14px; background-color: #2E7D32; color: white; border: none; border-radius: 5px; font-size: 1.1em; cursor: pointer; font-weight: bold; display: none; }
+        #paypal-button-container { display: none; }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h2>Secure Checkout</h2>
+    <div class="summary">Total to Pay: ₱ <span id="display-total"><?php echo number_format($total_cart, 2); ?></span></div>
+
+    <form id="checkout-form" action="place_order_cod.php" method="POST">
+        <input type="hidden" name="total_amount" value="<?php echo $total_cart; ?>">
+        <div class="form-group"><label>Contact Number</label><input type="text" name="contact_number" value="<?php echo htmlspecialchars($contact); ?>" required></div>
+        <div class="form-group"><label>Delivery Address</label><textarea name="delivery_address" rows="3" required></textarea></div>
+        <div class="form-group"><label>Notes</label><input type="text" name="customer_notes"></div>
+
+        <h3>Payment Method</h3>
+        <div class="payment-options">
+            <div class="payment-card active" id="card-cod" onclick="selectPayment('cod')">💵 Cash on Delivery</div>
+            <div class="payment-card" id="card-paypal" onclick="selectPayment('paypal')">💳 PayPal</div>
+        </div>
+
+        <button type="submit" class="btn-cod" id="btn-cod">✅ Place Order (COD)</button>
+    </form>
+
+    <div id="paypal-button-container"></div>
+    <a href="customer_dashboard.php" class="btn-back">Back to Menu</a>
+</div>
+
+<script src="https://www.paypal.com/sdk/js?client-id=AZkafM5IZnjdxRPo6L2VG-mj_vHgXrMO29gNbGgx3UlMLr1s_QfptxVMhSDoDIl-qwxwqq-YH7Oy0XA2&currency=PHP"></script>
+<script>
+    function selectPayment(method) {
+        document.getElementById('card-cod').className = (method === 'cod') ? 'payment-card active' : 'payment-card';
+        document.getElementById('card-paypal').className = (method === 'paypal') ? 'payment-card active' : 'payment-card';
+        document.getElementById('btn-cod').style.display = (method === 'cod') ? 'block' : 'none';
+        document.getElementById('paypal-button-container').style.display = (method === 'paypal') ? 'block' : 'none';
+    }
+    selectPayment('cod');
+
+    paypal.Buttons({
+        createOrder: function(data, actions) {
+            return actions.order.create({ purchase_units: [{ amount: { value: '<?php echo $total_cart; ?>' } }] });
+        },
+        onApprove: function(data, actions) {
+            return actions.order.capture().then(function(details) {
+                alert('Payment successful!');
+                window.location.href = "customer_order_history.php";
+            });
+        }
+    }).render('#paypal-button-container');
+</script>
+</body>
+</html>

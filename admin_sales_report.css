@@ -1,0 +1,132 @@
+/* admin_sales_report.css */
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: #f4f7f6;
+    margin: 0;
+    padding: 30px;
+    color: #333;
+}
+
+.container {
+    max-width: 1300px;
+    margin: 0 auto;
+    background: white;
+    padding: 40px;
+    border-radius: 12px;
+    box-shadow: 0 5px 20px rgba(0,0,0,0.05);
+}
+
+.header-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 30px;
+}
+
+h2 {
+    margin: 0;
+    color: #173f5f;
+    font-size: 1.8em;
+}
+
+h3 { color: #173f5f; margin-top: 40px; margin-bottom: 20px; }
+h4 { margin-top: 0; color: #555; border-bottom: 1px solid #eee; padding-bottom: 10px; }
+h5 { margin-top: 0; color: #444; border-bottom: 2px solid #ddd; padding-bottom: 5px; }
+
+.nav-links a {
+    color: #20639b;
+    text-decoration: none;
+    font-weight: bold;
+    margin-left: 15px;
+}
+.nav-links a:hover { text-decoration: underline; }
+
+/* === METRIC CARDS === */
+.metrics-row {
+    display: flex;
+    gap: 20px;
+    margin-bottom: 30px;
+}
+
+.card {
+    flex: 1;
+    background: white;
+    padding: 25px;
+    border-radius: 8px;
+    text-align: center;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+}
+
+.card-title { font-size: 0.85em; color: #666; letter-spacing: 1px; margin-bottom: 10px; }
+.card-value { font-size: 2.2em; font-weight: bold; }
+
+.card-blue { border-top: 4px solid #20639b; }
+.card-blue .card-value { color: #173f5f; }
+
+.card-green { border-top: 4px solid #2e7d32; background-color: #f1f8e9; }
+.card-green .card-value { color: #2e7d32; }
+
+/* === CHARTS GRID === */
+.chart-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr); /* 2 Columns */
+    gap: 25px;
+}
+
+.chart-box {
+    background: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    border: 1px solid #e0e0e0;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.03);
+}
+
+/* Make the Monthly Chart span full width */
+.full-width {
+    grid-column: span 2; 
+}
+
+/* === BARISTA LIST === */
+.barista-list {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+    margin: 15px 0 25px 0;
+}
+
+.barista-btn {
+    padding: 8px 20px;
+    background-color: #e6f0fa;
+    color: #173f5f;
+    text-decoration: none;
+    border-radius: 20px;
+    font-weight: bold;
+    border: 1px solid #d0e1f5;
+    transition: all 0.2s;
+}
+
+.barista-btn:hover { background-color: #d0e1f5; }
+.barista-btn.active { background-color: #173f5f; color: white; border-color: #173f5f; }
+
+/* === TABLES & REPORTS === */
+.report-section {
+    padding: 20px;
+    background: #fdfdfd;
+    border: 1px solid #eee;
+    border-radius: 8px;
+    animation: fadeIn 0.4s ease;
+}
+
+.split-view { display: flex; gap: 30px; }
+.half-width { flex: 1; }
+
+table { width: 100%; border-collapse: collapse; font-size: 0.9em; margin-top: 10px; }
+th, td { padding: 10px; border-bottom: 1px solid #eee; text-align: left; }
+th { background-color: #f9f9f9; color: #666; font-weight: 600; }
+
+.empty-msg { color: #999; font-style: italic; }
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+}

@@ -1,0 +1,167 @@
+/* File: barista_order_details.css */
+
+/* 1. Global Layout (Coffee Theme) */
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: #F8F4EF; /* Creamy Tan */
+    color: #4E342E; /* Espresso Brown */
+    margin: 0;
+    padding: 20px;
+}
+
+.container {
+    max-width: 900px;
+    margin: 30px auto;
+    background: white;
+    padding: 40px;
+    border-radius: 12px;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
+    border-top: 5px solid #8B4513; /* Saddle Brown Accent */
+}
+
+/* 2. Typography */
+h2 {
+    color: #4E342E;
+    border-bottom: 2px solid #D7CCC8;
+    padding-bottom: 15px;
+    margin-top: 0;
+    margin-bottom: 25px;
+}
+
+h3 {
+    color: #8B4513; /* Accent Brown */
+    margin-top: 30px;
+    margin-bottom: 15px;
+    font-size: 1.3em;
+    border-bottom: 1px solid #eee;
+    padding-bottom: 5px;
+}
+
+/* 3. Order Summary Box */
+/* NOTE: The provided HTML uses a different structure (.order-info p strong), 
+   but keeping the styles here for general file completeness. */
+.summary-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 20px;
+    background-color: #FAFAFA;
+    padding: 20px;
+    border-radius: 8px;
+    border: 1px solid #E0E0E0;
+    margin-bottom: 25px;
+}
+
+.summary-item {
+    margin-bottom: 10px;
+}
+
+.label {
+    font-weight: bold;
+    color: #8D6E63; /* Muted Brown */
+    font-size: 0.9em;
+    text-transform: uppercase;
+    display: block;
+    margin-bottom: 4px;
+}
+
+.value {
+    font-weight: 600;
+    color: #3E2723; /* Darkest Brown */
+    font-size: 1.1em;
+}
+
+/* 4. Forms & Buttons */
+.update-box {
+    background-color: #EFEBE9; /* Light Grey-Brown Box */
+    padding: 20px;
+    border-radius: 8px;
+    margin-top: 20px;
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    border: 1px solid #D7CCC8;
+}
+
+select {
+    padding: 10px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    font-size: 1em;
+    flex-grow: 1;
+    color: #4E342E;
+}
+
+.btn-update {
+    background-color: #28a745; /* Green */
+    color: white;
+    border: none;
+    padding: 12px 25px;
+    border-radius: 5px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background 0.3s;
+}
+
+.btn-update:hover {
+    background-color: #218838;
+}
+
+/* 5. Tables */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 15px;
+    background: white;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+    border: 1px solid #E0E0E0;
+}
+
+th {
+    background-color: #4E342E; /* Espresso Header */
+    color: white;
+    padding: 15px;
+    text-align: left;
+    font-weight: 600;
+}
+
+td {
+    padding: 15px;
+    border-bottom: 1px solid #eee;
+    color: #555;
+}
+
+tr:last-child td {
+    border-bottom: none;
+}
+
+/* 6. Status Badges (Matches the PHP logic's slug naming) */
+.status-badge {
+    display: inline-block;
+    padding: 5px 12px;
+    border-radius: 20px;
+    font-size: 0.9em;
+    font-weight: bold;
+    text-transform: uppercase;
+}
+.status-pending { background-color: #FFF3E0; color: #E65100; }
+.status-processing { background-color: #E3F2FD; color: #1565C0; }
+.status-ready { background-color: #E8F5E9; color: #2E7D32; } /* Corrected for the 'Ready' status */
+.status-out-for-delivery { background-color: #FFC107; color: #CC7722; } /* Custom for Rider acceptance */
+.status-completed { background-color: #D7CCC8; color: #3E2723; }
+.status-canceled { background-color: #FFEBEE; color: #C62828; }
+
+/* 7. Navigation Link */
+.back-link {
+    display: inline-block;
+    margin-bottom: 20px;
+    color: #8B4513;
+    text-decoration: none;
+    font-weight: 600;
+}
+
+.back-link:hover {
+    text-decoration: underline;
+    color: #5D4037;
+}

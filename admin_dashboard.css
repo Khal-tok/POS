@@ -1,0 +1,458 @@
+/* ==================================
+   1. GLOBAL & LAYOUT STYLES
+   ================================== */
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: #f4f7f6;
+    color: #333;
+    margin: 0;
+    padding: 0;
+}
+
+/* ==================================
+   2. ADMIN PROFILE HEADER
+   ================================== */
+.admin-header {
+    background-color: #173f5f;
+    color: white;
+    padding: 15px 30px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.admin-header h1 {
+    margin: 0;
+    font-size: 1.5em;
+}
+
+.admin-profile {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.admin-avatar {
+    width: 45px;
+    height: 45px;
+    background-color: #20639b;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.3em;
+    font-weight: bold;
+    color: white;
+    cursor: pointer;
+    transition: transform 0.2s;
+    overflow: hidden;
+}
+
+.admin-avatar:hover {
+    transform: scale(1.1);
+}
+
+.admin-avatar img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+/* Modal Styles */
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 9999;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.8);
+    justify-content: center;
+    align-items: center;
+}
+
+.modal-content {
+    position: relative;
+    max-width: 500px;
+    max-height: 90vh;
+    background-color: white;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+}
+
+.modal-content img {
+    width: 100%;
+    height: auto;
+    border-radius: 10px;
+}
+
+.modal-avatar-placeholder {
+    text-align: center;
+    padding: 50px;
+    background: #e6f0fa;
+    border-radius: 10px;
+}
+
+.modal-avatar-placeholder div {
+    font-size: 150px;
+    color: #20639b;
+}
+
+.close-modal {
+    position: absolute;
+    top: 10px;
+    right: 20px;
+    font-size: 35px;
+    font-weight: bold;
+    color: #333;
+    cursor: pointer;
+    background: white;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    line-height: 1;
+}
+
+.close-modal:hover {
+    color: #cc0000;
+}
+
+.modal-profile-info {
+    text-align: center;
+    margin-top: 15px;
+    padding-top: 15px;
+    border-top: 2px solid #e0e0e0;
+}
+
+.modal-profile-info h3 {
+    margin: 10px 0;
+    color: #173f5f;
+}
+
+.modal-profile-info p {
+    color: #666;
+    margin: 5px 0;
+}
+
+.modal-buttons {
+    margin-top: 15px;
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+}
+
+.modal-btn {
+    background: #20639b;
+    color: white;
+    padding: 10px 20px;
+    border-radius: 5px;
+    text-decoration: none;
+    display: inline-block;
+    border: none;
+    cursor: pointer;
+    font-size: 14px;
+    transition: background 0.3s;
+}
+
+.modal-btn:hover {
+    background: #173f5f;
+}
+
+.modal-btn-secondary {
+    background: #6c757d;
+}
+
+.modal-btn-secondary:hover {
+    background: #5a6268;
+}
+
+.admin-info {
+    text-align: right;
+}
+
+.admin-info .admin-name {
+    font-weight: bold;
+    font-size: 1em;
+    margin-bottom: 3px;
+}
+
+.admin-info .admin-role {
+    font-size: 0.85em;
+    color: #b8d4e8;
+}
+
+.admin-info a {
+    color: #ffd700;
+    text-decoration: none;
+    font-size: 0.85em;
+    margin-left: 10px;
+}
+
+.admin-info a:hover {
+    text-decoration: underline;
+}
+
+/* Hidden file input */
+#profileImageInput {
+    display: none;
+}
+
+/* ==================================
+   3. CONTAINER & CONTENT
+   ================================== */
+.container {
+    max-width: 1400px;
+    margin: 30px auto;
+    background: white;
+    padding: 30px;
+    border-radius: 12px;
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.05);
+}
+
+h2 {
+    color: #173f5f;
+    padding-bottom: 10px;
+    border-bottom: 3px solid #e0e0e0;
+    margin-bottom: 25px;
+}
+
+h3 {
+    color: #20639b;
+    margin-top: 25px;
+    margin-bottom: 15px;
+}
+
+a {
+    color: #20639b;
+    text-decoration: none;
+    transition: color 0.2s;
+}
+
+a:hover {
+    color: #173f5f;
+    text-decoration: underline;
+}
+
+hr {
+    border: 0;
+    height: 1px;
+    background-color: #e0e0e0;
+    margin: 20px 0;
+}
+
+/* ==================================
+   4. METRICS CARDS
+   ================================== */
+.metrics-card-container {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 30px;
+    gap: 20px;
+    flex-wrap: wrap;
+}
+
+.metric-card {
+    flex: 1;
+    min-width: 200px;
+    padding: 20px;
+    background-color: #ffffff;
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
+    text-align: center;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
+    transition: transform 0.2s;
+}
+
+.metric-card:hover {
+    transform: translateY(-3px);
+}
+
+.metric-card h4 {
+    margin-top: 0;
+    color: #555;
+    font-weight: 500;
+    font-size: 1em;
+}
+
+.metric-card p {
+    font-size: 2em;
+    font-weight: 700;
+    color: #173f5f;
+    margin: 5px 0 0 0;
+}
+
+.metric-card:nth-child(4) p, 
+.metric-card:nth-child(5) p {
+    color: #008080;
+}
+
+/* ==================================
+   5. TABLES
+   ================================== */
+.dashboard-section {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    border: 1px solid #e0e0e0;
+    margin-bottom: 25px;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 15px;
+    font-size: 0.9em;
+}
+
+table th, table td {
+    padding: 12px 10px;
+    text-align: left;
+    border-bottom: 1px solid #f0f0f0;
+}
+
+table th {
+    background-color: #e6f0fa;
+    color: #173f5f;
+    font-weight: 600;
+    text-transform: uppercase;
+}
+
+table tr:hover {
+    background-color: #f9f9f9;
+}
+
+td a[href*="edit"] { color: #20639b; }
+td a[href*="delete"] { color: #cc0000; }
+
+/* ==================================
+   6. VIEW ALL BUTTON
+   ================================== */
+.view-all-container {
+    text-align: center;
+    margin-top: 15px;
+    padding: 15px;
+    background-color: #f9f9f9;
+    border-radius: 5px;
+}
+
+.view-all-btn {
+    display: inline-block;
+    background-color: #20639b;
+    color: white;
+    padding: 10px 25px;
+    border-radius: 5px;
+    text-decoration: none;
+    font-weight: bold;
+    transition: background-color 0.3s;
+}
+
+.view-all-btn:hover {
+    background-color: #173f5f;
+    text-decoration: none;
+}
+
+.show-less-btn {
+    display: inline-block;
+    background-color: #6c757d;
+    color: white;
+    padding: 10px 25px;
+    border-radius: 5px;
+    text-decoration: none;
+    font-weight: bold;
+    transition: background-color 0.3s;
+}
+
+.show-less-btn:hover {
+    background-color: #5a6268;
+    text-decoration: none;
+}
+
+/* ==================================
+   7. MESSAGES & SEARCH
+   ================================== */
+.message-success {
+    background-color: #d4edda;
+    color: #155724;
+    padding: 12px;
+    margin: 15px 0;
+    border-radius: 5px;
+    border: 1px solid #c3e6cb;
+    font-weight: bold;
+}
+
+.message-error {
+    background-color: #f8d7da;
+    color: #721c24;
+    padding: 12px;
+    margin: 15px 0;
+    border-radius: 5px;
+    border: 1px solid #f5c6cb;
+    font-weight: bold;
+}
+
+.product-search-form {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 15px;
+}
+
+.product-search-form input[type="text"] {
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    flex-grow: 1;
+}
+
+.product-search-form input[type="submit"] {
+    background-color: #20639b;
+    color: white;
+    border: none;
+    padding: 8px 15px;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+.product-search-form input[type="submit"]:hover {
+    background-color: #173f5f;
+}
+
+/* --- NEW SUBCATEGORY LINK STYLE --- */
+.subcategory-link {
+    font-size: 0.7em;
+    margin-left: 10px;
+    color: #008080;
+}
+
+/*
+   8. CHART STYLES (New)
+  */
+.chart-container {
+    display: flex;
+    gap: 20px;
+    margin-bottom: 30px;
+    flex-wrap: wrap;
+}
+.chart-box {
+    flex: 1;
+    min-width: 450px;
+    background: #ffffff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
+    border: 1px solid #e0e0e0;
+}
+.chart-box h4 {
+    margin-top: 0;
+    margin-bottom: 15px;
+    color: #173f5f;
+    border-bottom: 1px solid #e0e0e0;
+    padding-bottom: 5px;
+    text-align: center; 
+}

@@ -1,0 +1,150 @@
+CREATE DATABASE IF NOT EXISTS `mainpos` DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;
+USE `mainpos`;
+
+DROP TABLE IF EXISTS `customer_inquiries`;
+DROP TABLE IF EXISTS `petty_cash`;
+DROP TABLE IF EXISTS `online_order_items`;
+DROP TABLE IF EXISTS `online_orders`;
+DROP TABLE IF EXISTS `order_items`;
+DROP TABLE IF EXISTS `transactions`;
+DROP TABLE IF EXISTS `product_variants`;
+DROP TABLE IF EXISTS `products`;
+DROP TABLE IF EXISTS `drinks_subcategories`;
+DROP TABLE IF EXISTS `users`;
+
+-- 1. Users Table
+CREATE TABLE `users` (
+    `id` INT(11) NOT NULL AUTO_INCREMENT,
+    `username` VARCHAR(50) NOT NULL UNIQUE,
+    `password` VARCHAR(255) NOT NULL,
+    `role` VARCHAR(20) NOT NULL, -- 'admin', 'barista', 'customer', 'rider'
+    `contact_number` VARCHAR(20) DEFAULT NULL,
+    `is_verified` TINYINT(1) DEFAULT 0,
+    PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- 2. Products and Menu Structure
+CREATE TABLE `products` (
+    `id` INT(11) NOT NULL AUTO_INCREMENT,
+    `name` VARCHAR(100) NOT NULL,
+    `price` DECIMAL(10, 2) NOT NULL,
+    `category` VARCHAR(50) NOT NULL,
+    `subcategory` VARCHAR(50) DEFAULT NULL,
+    `stock` INT(11) DEFAULT 100,
+    `image_path` VARCHAR(255) DEFAULT 'placeholder.png',
+    `has_sizes` TINYINT(1) DEFAULT 0,
+    `temp_option` VARCHAR(20) DEFAULT 'none',
+    PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+CREATE TABLE `product_variants` (
+    `id` INT(11) NOT NULL AUTO_INCREMENT,
+    `product_id` INT(11) NOT NULL,
+    `size` VARCHAR(50) NOT NULL,
+    `temp` VARCHAR(50) NOT NULL,
+    `price` DECIMAL(10, 2) NOT NULL,
+    PRIMARY KEY (`id`),
+    CONSTRAINT `fk_variant_product` FOREIGN KEY (`product_id`) REFERENCES `products`(`id`) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+CREATE TABLE `drinks_subcategories` (
+    `id` INT(11) NOT NULL AUTO_INCREMENT,
+    `name` VARCHAR(50) NOT NULL,
+    `sort_order` INT(11) DEFAULT 0,
+    PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- 3. Point of Sale (POS) Transactions
+CREATE TABLE `transactions` (
+    `id` INT(11) NOT NULL AUTO_INCREMENT,
+    `user_id` INT(11) NOT NULL, -- Barista ID
+    `total_amount` DECIMAL(10, 2) NOT NULL,
+    `amount_paid` DECIMAL(10, 2) NOT NULL,
+    `transaction_date` DATETIME DEFAULT CURRENT_TIMESTAMP,
+    PRIMARY KEY (`id`),
+    CONSTRAINT `fk_txn_user` FOREIGN KEY (`user_id`) REFERENCES `users`(`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+CREATE TABLE `order_items` (
+    `id` INT(11) NOT NULL AUTO_INCREMENT,
+    `transaction_id` INT(11) NOT NULL,
+    `product_id` INT(11) NOT NULL,
+    `quantity` INT(11) NOT NULL,
+    `price` DECIMAL(10, 2) NOT NULL,
+    `size` VARCHAR(50) DEFAULT 'Standard',
+    `temp` VARCHAR(50) DEFAULT 'N/A',
+    `ice_level` VARCHAR(50) DEFAULT 'N/A',
+    PRIMARY KEY (`id`),
+    CONSTRAINT `fk_pos_txn` FOREIGN KEY (`transaction_id`) REFERENCES `transactions`(`id`) ON DELETE CASCADE,
+    CONSTRAINT `fk_pos_prod` FOREIGN KEY (`product_id`) REFERENCES `products`(`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- 4. Online Ordering
+CREATE TABLE `online_orders` (
+    `id` INT(11) NOT NULL AUTO_INCREMENT,
+    `user_id` INT(11) NOT NULL, -- Customer ID
+    `total_amount` DECIMAL(10, 2) NOT NULL,
+    `amount_paid` DECIMAL(10, 2) DEFAULT 0.00,
+    `payment_method` VARCHAR(50) NOT NULL,
+    `status` VARCHAR(50) NOT NULL DEFAULT 'Pending',
+    `order_date` DATETIME DEFAULT CURRENT_TIMESTAMP,
+    `contact_number` VARCHAR(20) DEFAULT NULL,
+    `delivery_address` VARCHAR(255) DEFAULT NULL,
+    `customer_notes` TEXT DEFAULT NULL,
+    `cup_design` VARCHAR(50) DEFAULT 'Standard',
+    `prepared_by` INT(11) DEFAULT NULL, -- Barista ID who prepared it
+    PRIMARY KEY (`id`),
+    CONSTRAINT `fk_online_cust` FOREIGN KEY (`user_id`) REFERENCES `users`(`id`),
+    CONSTRAINT `fk_online_barista` FOREIGN KEY (`prepared_by`) REFERENCES `users`(`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+CREATE TABLE `online_order_items` (
+    `id` INT(11) NOT NULL AUTO_INCREMENT,
+    `order_id` INT(11) NOT NULL,
+    `product_id` INT(11) NOT NULL,
+    `quantity` INT(11) NOT NULL,
+    `price` DECIMAL(10, 2) NOT NULL,
+    `size` VARCHAR(50) DEFAULT NULL,
+    `temp` VARCHAR(50) DEFAULT NULL,
+    `ice_level` VARCHAR(50) DEFAULT NULL,
+    PRIMARY KEY (`id`),
+    CONSTRAINT `fk_online_order` FOREIGN KEY (`order_id`) REFERENCES `online_orders`(`id`) ON DELETE CASCADE,
+    CONSTRAINT `fk_online_prod` FOREIGN KEY (`product_id`) REFERENCES `products`(`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- 5. Support Tables
+CREATE TABLE `petty_cash` (
+    `id` INT(11) NOT NULL AUTO_INCREMENT,
+    `user_id` INT(11) NOT NULL,
+    `amount` DECIMAL(10, 2) NOT NULL,
+    `description` TEXT NOT NULL,
+    `recorded_at` DATETIME DEFAULT CURRENT_TIMESTAMP,
+    PRIMARY KEY (`id`),
+    CONSTRAINT `fk_petty_user` FOREIGN KEY (`user_id`) REFERENCES `users`(`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+CREATE TABLE `customer_inquiries` (
+    `id` INT(11) NOT NULL AUTO_INCREMENT,
+    `name` VARCHAR(100) NOT NULL,
+    `email` VARCHAR(100) NOT NULL,
+    `message` TEXT NOT NULL,
+    `is_read` TINYINT(1) DEFAULT 0,
+    `created_at` DATETIME DEFAULT CURRENT_TIMESTAMP,
+    PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- 6. Sample Initial Data
+INSERT INTO `users` (`username`, `password`, `role`, `is_verified`) VALUES 
+('admin', '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', 'admin', 1), -- pass: password
+('barista1', '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', 'barista', 1);
+
+INSERT INTO `products` (`name`, `price`, `category`, `subcategory`, `has_sizes`, `temp_option`) VALUES 
+('Espresso', 100.00, 'drink', 'Hot Coffee', 1, 'hot_only'),
+('Iced Latte', 120.00, 'drink', 'Iced Coffee', 1, 'both');
+
+-- 1. Update the Menu (Product Variants)
+UPDATE product_variants SET size = '10oz' WHERE size = '12oz';
+
+-- 2. Update Past Sales History (Optional - run this if you want old reports to say 10oz too)
+UPDATE order_items SET size = '10oz' WHERE size = '12oz';
+UPDATE online_order_items SET size = '10oz' WHERE size = '12oz';

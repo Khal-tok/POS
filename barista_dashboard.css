@@ -1,0 +1,478 @@
+/* ==================================
+   1. GLOBAL VARIABLES & RESET
+   ================================== */
+:root {
+    --primary: #6F4E37; /* Coffee Bean */
+    --accent: #D7CCC8;  /* Latte */
+    --bg: #F4F4F4;      /* Light Gray Background */
+    --white: #FFFFFF;
+    --text-dark: #2C2C2C;
+    --text-light: #777777;
+    --success: #2E7D32; /* Green */
+    --danger: #C62828;  /* Red */
+    --shadow: 0 4px 12px rgba(0,0,0,0.08);
+}
+
+body {
+    font-family: 'Inter', 'Segoe UI', sans-serif; /* Modern Font */
+    background-color: var(--bg);
+    color: var(--text-dark);
+    margin: 0;
+    padding: 0;
+    height: 100vh;
+    overflow: hidden; /* Prevent full page scroll */
+}
+
+/* ==================================
+   2. LAYOUT STRUCTURE
+   ================================== */
+.container {
+    max-width: 100%;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    padding: 0;
+    margin: 0;
+}
+
+.header-bar {
+    background: var(--white);
+    padding: 15px 30px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+    flex-shrink: 0;
+}
+
+.header-bar h2 { margin: 0; font-size: 1.5rem; color: var(--primary); }
+
+.user-badge {
+    background: var(--bg);
+    padding: 8px 15px;
+    border-radius: 20px;
+    font-weight: 600;
+    font-size: 0.9rem;
+    color: var(--primary);
+}
+
+.main-layout {
+    display: flex;
+    flex: 1;
+    overflow: hidden; /* Important for inner scrolling */
+}
+
+/* ==================================
+   3. LEFT SIDE: MENU
+   ================================== */
+.menu-section {
+    flex: 3; /* Takes 75% width */
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+}
+
+/* TABS */
+.drink-tabs {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 20px;
+    overflow-x: auto;
+    padding-bottom: 5px;
+    scrollbar-width: none; /* Hide scrollbar */
+}
+
+.menu-tab-btn {
+    background: var(--white);
+    border: 1px solid #ddd;
+    padding: 10px 20px;
+    border-radius: 30px;
+    font-weight: 600;
+    color: var(--text-light);
+    cursor: pointer;
+    white-space: nowrap;
+    transition: all 0.2s;
+}
+
+.menu-tab-btn.active, .menu-tab-btn:hover {
+    background: var(--primary);
+    color: var(--white);
+    border-color: var(--primary);
+    box-shadow: 0 4px 10px rgba(111, 78, 55, 0.3);
+}
+
+/* TOGGLES (Drinks vs Snacks) */
+.menu-toggles { margin-bottom: 15px; display: flex; gap: 10px; }
+.toggle-btn {
+    padding: 12px 25px;
+    border: none;
+    background: #E0E0E0;
+    border-radius: 8px;
+    font-weight: bold;
+    cursor: pointer;
+    color: #555;
+    flex: 1;
+}
+.toggle-btn.active { background: var(--primary); color: white; }
+
+/* PRODUCT GRID */
+.product-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+    gap: 15px;
+    overflow-y: auto;
+    padding-right: 5px;
+    padding-bottom: 20px;
+}
+
+.product-card {
+    background: var(--white);
+    border-radius: 12px;
+    padding: 20px;
+    text-align: center;
+    box-shadow: var(--shadow);
+    transition: transform 0.2s;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    height: 140px;
+    border: 1px solid transparent;
+}
+
+.product-card:hover {
+    transform: translateY(-3px);
+    border-color: var(--primary);
+}
+
+.product-card h4 {
+    margin: 0;
+    font-size: 1.1rem;
+    color: var(--text-dark);
+    display: -webkit-box;
+    -webkit-line-clamp: 2;  
+    line-clamp: 2;          
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+.price-tag {
+    font-size: 1rem;
+    color: var(--primary);
+    font-weight: 700;
+    margin: 10px 0;
+    display: block;
+}
+
+.btn-options {
+    background: transparent;
+    border: 1px solid var(--primary);
+    color: var(--primary);
+    padding: 8px;
+    border-radius: 6px;
+    font-weight: 600;
+    cursor: pointer;
+    width: 100%;
+    transition: 0.2s;
+}
+
+.btn-options:hover {
+    background: var(--primary);
+    color: var(--white);
+}
+
+/* ==================================
+   4. RIGHT SIDE: CART
+   ================================== */
+.cart-section {
+    flex: 1; /* Takes 25% width */
+    background: var(--white);
+    border-left: 1px solid #eee;
+    display: flex;
+    flex-direction: column;
+    padding: 0;
+}
+
+.top-nav {
+    padding: 15px;
+    border-bottom: 1px solid #eee;
+    display: flex;
+    gap: 5px;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.nav-btn {
+    font-size: 0.75rem;
+    padding: 5px 10px;
+    background: #eee;
+    border-radius: 4px;
+    color: #333;
+    text-decoration: none;
+    font-weight: bold;
+}
+.nav-btn:hover { background: #ddd; }
+
+.cart-items-container {
+    flex: 1;
+    overflow-y: auto;
+    padding: 15px;
+}
+
+.cart-table { width: 100%; border-collapse: collapse; }
+.cart-table tr { border-bottom: 1px solid #f0f0f0; }
+.cart-table td { padding: 12px 0; font-size: 0.9rem; }
+.cart-table strong { display: block; font-size: 1rem; color: #333; }
+.cart-table small { color: #888; }
+
+.btn-x {
+    background: #FFEBEE;
+    color: var(--danger);
+    border: none;
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    cursor: pointer;
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.btn-x:hover { background: var(--danger); color: white; }
+
+.cart-summary {
+    background: #FAFAFA;
+    padding: 20px;
+    border-top: 1px solid #eee;
+}
+
+.total-line {
+    font-size: 1.5rem;
+    font-weight: 800;
+    color: var(--primary);
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 15px;
+}
+
+.pay-input {
+    width: 100%;
+    padding: 15px;
+    font-size: 1.2rem;
+    border: 2px solid #ddd;
+    border-radius: 8px;
+    text-align: center;
+    margin-bottom: 10px;
+    outline: none;
+}
+.pay-input:focus { border-color: var(--primary); }
+
+.btn-pay {
+    width: 100%;
+    padding: 15px;
+    background: var(--success);
+    color: white;
+    font-size: 1.1rem;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: bold;
+    opacity: 0.5;
+    pointer-events: none; /* Disabled visually */
+}
+
+.btn-pay:not(:disabled) {
+    opacity: 1;
+    pointer-events: auto;
+}
+
+.btn-clear {
+    width: 100%;
+    background: none;
+    border: none;
+    color: #999;
+    padding: 10px;
+    cursor: pointer;
+    text-decoration: underline;
+}
+
+/* ... [KEEP ALL YOUR PREVIOUS CSS FOR LAYOUT/GRID/CART] ... */
+
+/* ==================================
+   5. MODERN MODAL (TILES & BUTTONS)
+   ================================== */
+.modal-overlay {
+    display: none;
+    position: fixed;
+    top: 0; left: 0; width: 100%; height: 100%;
+    background: rgba(0,0,0,0.5); /* Dimmed background */
+    backdrop-filter: blur(4px);   /* Blur effect like iOS */
+    z-index: 9999;
+    justify-content: center;
+    align-items: center;
+}
+
+.modal-box {
+    background: #fff;
+    width: 450px;
+    max-width: 90%;
+    padding: 30px;
+    border-radius: 16px;
+    box-shadow: 0 20px 50px rgba(0,0,0,0.3);
+    border-top: 8px solid #8B4513; /* Coffee Brand Color */
+    animation: popIn 0.3s cubic-bezier(0.18, 0.89, 0.32, 1.28);
+}
+
+@keyframes popIn {
+    0% { transform: scale(0.8); opacity: 0; }
+    100% { transform: scale(1); opacity: 1; }
+}
+
+.modal-box h3 {
+    margin: 0 0 20px 0;
+    color: #4E342E;
+    font-size: 1.5em;
+    text-align: center;
+    border-bottom: 2px solid #F4F4F4;
+    padding-bottom: 15px;
+}
+
+/* OPTION LABELS */
+.option-group { margin-bottom: 20px; }
+.option-group label {
+    display: block;
+    font-weight: 700;
+    margin-bottom: 8px;
+    color: #6D4C41;
+    font-size: 0.85em;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+/* TILE GRID (The "Buttons") */
+.option-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+    gap: 12px;
+}
+
+.opt-btn {
+    padding: 12px 24px;
+    background: #fff;
+    border: 2px solid #E0E0E0;
+    border-radius: 10px;
+    cursor: pointer;
+    font-weight: 600;
+    color: #555;
+    text-align: center;
+    transition: all 0.2s ease;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.opt-btn small {
+    display: block;
+    margin-top: 4px;
+    font-size: 0.85em;
+    font-weight: normal;
+    color: #888;
+}
+
+.opt-btn:hover {
+    border-color: #D7CCC8;
+    background: #FAFAFA;
+    transform: translateY(-2px);
+}
+
+/* SELECTED STATE (Active Tile) */
+.opt-btn.selected {
+    background-color: #FFF3E0; /* Light Orange/Brown bg */
+    border-color: #8B4513;
+    color: #8B4513;
+    box-shadow: 0 4px 12px rgba(139, 69, 19, 0.2);
+}
+
+.opt-btn.selected small { color: #8B4513; font-weight: bold; }
+
+/* QUANTITY STEPPER */
+.qty-wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 20px;
+    background: #F9F9F9;
+    padding: 10px;
+    border-radius: 12px;
+    border: 1px solid #EEE;
+}
+
+.qty-btn {
+    width: 45px;
+    height: 45px;
+    background: #fff;
+    border: 2px solid #E0E0E0;
+    border-radius: 50%;
+    font-size: 1.5em;
+    color: #555;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: 0.2s;
+}
+
+.qty-btn:hover { border-color: #8B4513; color: #8B4513; }
+
+.qty-display {
+    font-size: 1.5em;
+    font-weight: 800;
+    width: 50px;
+    text-align: center;
+    border: none;
+    background: transparent;
+    color: #333;
+}
+
+/* FOOTER ACTIONS */
+.modal-actions {
+    display: flex;
+    gap: 15px;
+    margin-top: 25px;
+    border-top: 2px solid #F4F4F4;
+    padding-top: 20px;
+}
+
+.btn-modal-cancel {
+    flex: 1;
+    padding: 15px;
+    background: #f5f5f5;
+    color: #666;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    font-weight: bold;
+    font-size: 1em;
+}
+.btn-modal-cancel:hover { background: #e0e0e0; }
+
+.btn-modal-add {
+    flex: 2;
+    padding: 15px;
+    background: #8B4513;
+    color: white;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    font-weight: bold;
+    font-size: 1.1em;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-left: 25px;
+    padding-right: 25px;
+    box-shadow: 0 5px 15px rgba(139, 69, 19, 0.3);
+}
+.btn-modal-add:hover { background: #6D4C41; transform: translateY(-2px); }
+

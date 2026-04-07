@@ -1,0 +1,158 @@
+/* add_product.css */
+body { 
+    background-color: #f4f7f6; 
+    font-family: 'Segoe UI', sans-serif; 
+    margin: 0;
+    padding: 0;
+}
+
+.container { 
+    max-width: 800px; 
+    margin: 30px auto; 
+    background: white; 
+    padding: 30px; 
+    border-radius: 10px; 
+    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+    /* Essential for positioning the button relative to this box */
+    position: relative; 
+}
+
+h2 { 
+    color: #173f5f; 
+    border-bottom: 2px solid #ddd; 
+    padding-bottom: 10px; 
+    margin-top: 0;
+}
+
+form { 
+    display: grid; 
+    gap: 15px; 
+}
+
+label { 
+    font-weight: bold; 
+    color: #333; 
+    margin-bottom: 5px; 
+    display: block; 
+}
+
+input[type="text"], 
+input[type="number"], 
+select {
+    width: 100%; 
+    padding: 10px; 
+    border: 1px solid #ccc; 
+    border-radius: 5px; 
+    box-sizing: border-box; 
+    font-size: 16px;
+}
+
+/* Tabs */
+.tabs { 
+    display: flex; 
+    margin-bottom: 0; 
+    cursor: pointer; 
+    border-bottom: 2px solid #ddd; 
+}
+
+.tab { 
+    padding: 10px 25px; 
+    background: #eee; 
+    margin-right: 5px; 
+    border-radius: 5px 5px 0 0; 
+    font-weight: bold; 
+    color: #555;
+    transition: all 0.2s;
+}
+
+.tab.active { 
+    background: #8B4513; 
+    color: white; 
+    border-bottom: none; 
+}
+
+.tab-content { 
+    display: none; 
+    padding: 20px; 
+    border: 1px solid #ddd; 
+    border-top: none; 
+    background: #fafafa; 
+}
+
+.tab-content.active { 
+    display: block; 
+}
+
+.price-row { 
+    display: flex; 
+    align-items: center; 
+    margin-bottom: 10px; 
+}
+
+.price-row label { 
+    width: 120px; 
+}
+
+.radio-group { 
+    background: #e0f2f1; 
+    padding: 15px; 
+    border-radius: 5px; 
+    border: 1px solid #b2dfdb; 
+    display: flex; 
+    gap: 20px; 
+}
+
+.radio-group label { 
+    cursor: pointer; 
+    color: #00695c; 
+    display: flex; 
+    align-items: center; 
+    gap: 5px;
+}
+
+#new-cat-div, #subcategory-div { 
+    display: none; 
+    margin-top: 10px; 
+}
+
+#new-cat-div input { 
+    border: 2px solid #8B4513; 
+    background: #FFF8E1; 
+}
+
+input[type="submit"] {
+    background-color: #20639b; 
+    color: white; 
+    border: none; 
+    padding: 12px;
+    border-radius: 5px; 
+    cursor: pointer; 
+    font-size: 16px; 
+    font-weight: bold;
+    width: 100%; 
+    margin-top: 15px;
+}
+
+input[type="submit"]:hover { 
+    background-color: #173f5f; 
+}
+
+/* === UPDATED BACK BUTTON STYLES === */
+.back-link { 
+    position: absolute;
+    top: 30px;
+    right: 30px;
+    display: inline-block; 
+    background-color: #6c757d; 
+    color: white; 
+    padding: 8px 15px; 
+    border-radius: 5px; 
+    text-decoration: none; 
+    font-weight: bold;
+    font-size: 14px;
+    margin-top: 0;
+}
+
+.back-link:hover {
+    background-color: #5a6268;
+}
